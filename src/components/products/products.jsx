@@ -1,45 +1,21 @@
-import { Button, List, ListItem } from "@mui/material";
+import { Button, Typography } from '@mui/material';
+import { List, Item } from './products.styled';
 
 export const Products = ({ shops, changeShop }) => {
   return (
-    <List
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-evenly",
-        gap: 3,
-        alignItems: "center",
-        border: 1,
-        borderColor: "#1976d2",
-        borderRadius: 2,
-        pt: 2,
-        pl: 4,
-        pr: 4,
-        pb: 2,
-      }}
-    >
+    <List>
       {shops
-        .filter((el) => el.restaurant === changeShop)
+        .filter(el => el.restaurant === changeShop)
         .map(({ _id, title, price }) => (
-          <ListItem
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: 250,
-              border: 1,
-              borderColor: "#1976d2",
-              borderRadius: 2,
-            }}
-            key={_id}
-          >
-            <h3>{title}</h3>
-            <p>
-              <strong>Price:</strong> {price}
-            </p>
+          <Item key={_id}>
+            <Typography variant="h5" sx={{ margin: 1 }}>
+              {title}
+            </Typography>
+            <Typography variant="h6" sx={{ margin: 1 }}>
+              Price: {price}
+            </Typography>
             <Button variant="outlined">add to cart</Button>
-          </ListItem>
+          </Item>
         ))}
     </List>
   );

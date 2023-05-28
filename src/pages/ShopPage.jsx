@@ -1,8 +1,8 @@
-import { Box } from "@mui/material";
-import { Products } from "components/products/products";
-import { Restaurant } from "components/restaurant/restaurant";
-import { useEffect, useState } from "react";
-import { fetchShops } from "service/api";
+import { Box } from '@mui/material';
+import { Products } from 'components/products/products';
+import { Restaurant } from 'components/restaurant/restaurant';
+import { useEffect, useState } from 'react';
+import { fetchShops } from 'service/api';
 
 const ShopPage = () => {
   const [shops, setShops] = useState([]);
@@ -21,25 +21,26 @@ const ShopPage = () => {
     products();
   }, []);
 
-  const changeShopClick = (id) => {
+  const changeShopClick = id => {
     switch (id) {
       case 1:
-        setChangeShop("Burger King");
+        setChangeShop('Burger King');
         break;
       case 2:
-        setChangeShop("CFK");
+        setChangeShop('CFK');
         break;
 
       default:
         setChangeShop(null);
     }
   };
+  console.log(shops);
 
   return (
     <Box
       component="section"
       sx={{
-        display: "flex",
+        display: 'flex',
       }}
     >
       <Restaurant changeShopClick={changeShopClick} />

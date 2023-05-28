@@ -1,20 +1,21 @@
-import { Box, Button, List } from "@mui/material";
-import restaurant from "../../restaurant.json";
+import { Box, Button, List } from '@mui/material';
+import restaurant from '../../restaurant.json';
 
 export const Restaurant = ({ changeShopClick }) => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
 
-        alignItems: "center",
+        alignItems: 'center',
         border: 1,
-        borderColor: "#1976d2",
+        borderColor: '#1976d2',
         borderRadius: 2,
-        width: "250px",
+        width: '250px',
         mr: 4,
         ml: 8,
+        pt: 3,
       }}
     >
       <h1>Shops:</h1>
@@ -29,7 +30,6 @@ export const Restaurant = ({ changeShopClick }) => {
                 width: 140,
                 height: 40,
               }}
-              //   className={changeShop === shops.name ? "active" : ""}
             >
               {name}
             </Button>

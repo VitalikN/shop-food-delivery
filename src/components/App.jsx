@@ -1,16 +1,18 @@
+import { Navigate, Routes, Route } from "react-router-dom";
+import SharedLayout from "./SharedLayout/SharedLayout";
+import ShopPage from "../pages/ShopPage";
+import ShoppingCartPage from "../pages/ShoppingCartPage";
+
 export const App = () => {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101',
-      }}
-    >
-      shop-food-delivery
+    <div>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index element={<ShopPage />} />
+          <Route path="/cart" element={<ShoppingCartPage />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
   );
 };

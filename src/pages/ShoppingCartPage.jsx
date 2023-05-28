@@ -1,7 +1,25 @@
 import { Box, List } from '@mui/material';
 import { UserForm } from 'components/userForm/userForm';
+import { useEffect } from 'react';
+import { addShopsOrders } from 'service/api';
 
 const ShoppingCartPage = () => {
+  useEffect(() => {
+    // if () return;
+
+    const getOrders = async () => {
+      try {
+        const res = await addShopsOrders();
+
+        console.log(res);
+        // setOrders(res);
+      } catch (error) {
+        console.log('------------error', error);
+      }
+    };
+    getOrders();
+  }, []);
+
   return (
     <Box
       component="section"

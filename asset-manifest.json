@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/shop-food-delivery/static/css/main.7acaea2f.css",
+    "main.js": "/shop-food-delivery/static/js/main.1942c3e0.js",
+    "index.html": "/shop-food-delivery/index.html",
+    "main.7acaea2f.css.map": "/shop-food-delivery/static/css/main.7acaea2f.css.map",
+    "main.1942c3e0.js.map": "/shop-food-delivery/static/js/main.1942c3e0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7acaea2f.css",
+    "static/js/main.1942c3e0.js"
+  ]
+}

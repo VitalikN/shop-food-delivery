@@ -1,23 +1,23 @@
 import { Box, TextField } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
-import { useState } from 'react';
+// import { useState } from 'react';
 
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 import 'yup-phone-lite';
 
-const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  email: Yup.string().email('Must be a valid email').required('Enter email'),
+// const validationSchema = Yup.object().shape({
+//   name: Yup.string()
+//     .min(2, 'Too Short!')
+//     .max(50, 'Too Long!')
+//     .required('Required'),
+//   email: Yup.string().email('Must be a valid email').required('Enter email'),
 
-  phone: Yup.string()
-    .min(10, 'Too Short!')
-    .max(15, 'Too Long!')
-    .required('Required'),
-  address: Yup.string().required('Enter your shipping address'),
-});
+//   phone: Yup.string()
+//     .min(10, 'Too Short!')
+//     .max(15, 'Too Long!')
+//     .required('Required'),
+//   address: Yup.string().required('Enter your shipping address'),
+// });
 
 // const SubmitSchema = Yup.object().shape({
 

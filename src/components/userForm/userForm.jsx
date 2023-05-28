@@ -2,38 +2,24 @@ import { Box, TextField } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 // import { useState } from 'react';
 
-// import * as Yup from 'yup';
+import * as Yup from 'yup';
 import 'yup-phone-lite';
 
-// const validationSchema = Yup.object().shape({
-//   name: Yup.string()
-//     .min(2, 'Too Short!')
-//     .max(50, 'Too Long!')
-//     .required('Required'),
-//   email: Yup.string().email('Must be a valid email').required('Enter email'),
-
-//   phone: Yup.string()
-//     .min(10, 'Too Short!')
-//     .max(15, 'Too Long!')
-//     .required('Required'),
-//   address: Yup.string().required('Enter your shipping address'),
-// });
-
-// const SubmitSchema = Yup.object().shape({
-
-//   name: Yup.string().required('Enter the name of the customer'),
-//   email: Yup.string().email().required('Enter email'),
-//   phone: Yup.string().phone('UA').required('Enter phone number'),
-//   address: Yup.string().required('Enter your shipping address'),
-// });
+const validationSchema = Yup.object({
+  name: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  email: Yup.string().email('Must be a valid email').required('Enter email'),
+  phone: Yup.string()
+    .phone('UA')
+    .min(10, 'Too Short!')
+    .max(15, 'Too Long!')
+    .required('Required'),
+  address: Yup.string().required('Enter your shipping address'),
+});
 
 export const UserForm = () => {
-  // const [userData, setUserData] = useState({
-  //   name: '',
-  //   email: '',
-  //   phone: '',
-  //   address: '',
-  // });
   return (
     <Box
       sx={{
@@ -50,16 +36,16 @@ export const UserForm = () => {
         padding: 4,
       }}
     >
-      <Formik>
-        {/* initialValues=
-        {{
+      <Formik
+        initialValues={{
           name: '',
           email: '',
           phone: '',
           address: '',
-        }} */}
-        {/* onSubmit={(values, { resetForm }) => {}} */}
-        {/* validationSchema={validationSchema} */}
+        }}
+        onSubmit={(values, { resetForm }) => {}}
+        validationSchema={validationSchema}
+      >
         <Form>
           <Box sx={{ margin: 1 }}>
             <Field

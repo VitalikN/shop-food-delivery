@@ -1,19 +1,8 @@
 import { Button, Typography } from '@mui/material';
 import { List, Item } from './products.styled';
-import { useState } from 'react';
+// import { useState } from 'react';
 
-export const Products = ({ shops, changeShop }) => {
-  const [orders, setOrders] = useState([]);
-
-  const handleAdd = idProduct => {
-    const [addProduct] = shops.filter(({ _id }) => _id === idProduct);
-    const updateProduct = { ...addProduct, count: 1 };
-
-    setOrders(updateProduct);
-  };
-  // console.log(orders);
-
-  console.log(orders);
+export const Products = ({ shops, changeShop, handleAdd }) => {
   return (
     <List>
       {shops

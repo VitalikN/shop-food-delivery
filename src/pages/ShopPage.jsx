@@ -1,25 +1,25 @@
 import { Box } from '@mui/material';
 import { Products } from 'components/products/products';
 import { Restaurant } from 'components/restaurant/restaurant';
-import { useEffect, useState } from 'react';
-import { fetchShops } from 'service/api';
+import { useState } from 'react';
+// import { fetchShops } from 'service/api';
 
-const ShopPage = () => {
-  const [shops, setShops] = useState([]);
+const ShopPage = ({ shops, handleAdd }) => {
+  // const [shops, setShops] = useState([]);
   const [changeShop, setChangeShop] = useState(null);
 
-  useEffect(() => {
-    const products = async () => {
-      try {
-        const shops = await fetchShops();
+  // useEffect(() => {
+  //   const products = async () => {
+  //     try {
+  //       const shops = await fetchShops();
 
-        setShops(shops);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    products();
-  }, []);
+  //       setShops(shops);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   products();
+  // }, []);
 
   const changeShopClick = id => {
     switch (id) {
@@ -34,7 +34,6 @@ const ShopPage = () => {
         setChangeShop(null);
     }
   };
-  console.log(shops);
 
   return (
     <Box
@@ -44,7 +43,9 @@ const ShopPage = () => {
       }}
     >
       <Restaurant changeShopClick={changeShopClick} />
-      {changeShop && <Products shops={shops} changeShop={changeShop} />}
+      {changeShop && (
+        <Products shops={shops} handleAdd={handleAdd} changeShop={changeShop} />
+      )}
     </Box>
   );
 };

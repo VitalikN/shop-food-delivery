@@ -1,7 +1,7 @@
-import { Suspense } from "react";
-import { Outlet } from "react-router-dom";
-import { AppBar, Box, Typography } from "@mui/material";
-import { LinkStyled } from "./Styled.styled";
+import { Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
+import { AppBar, Box, Typography } from '@mui/material';
+import { LinkStyled } from './Styled.styled';
 
 const SharedLayout = () => {
   return (
@@ -10,11 +10,11 @@ const SharedLayout = () => {
         <Box
           component="nav"
           sx={{
-            display: { xs: "flex" },
-            height: "60px",
+            display: { xs: 'flex' },
+            height: '60px',
 
-            justifyContent: "flex-start",
-            alignItems: "center",
+            justifyContent: 'flex-start',
+            alignItems: 'center',
             gap: 2,
             marginLeft: 10,
           }}
@@ -31,7 +31,7 @@ const SharedLayout = () => {
       <Box
         component="main"
         sx={{
-          minHeight: "calc(100vh - 65px)",
+          minHeight: 'calc(100vh - 65px)',
           pt: 10,
           pb: 3,
           pl: 3,

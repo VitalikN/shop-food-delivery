@@ -1,19 +1,18 @@
 import { Navigate, Routes, Route } from 'react-router-dom';
 import SharedLayout from './SharedLayout/SharedLayout';
 import ShopPage from '../pages/ShopPage';
-import ShoppingCartPage from '../pages/ShoppingCartPage';
 import { useEffect, useState } from 'react';
 import { fetchShops } from 'service/api';
+import ShoppingCartPage from 'pages/ShoppingCartPage/ShoppingCartPage';
 
 export const App = () => {
   const [shops, setShops] = useState([]);
-  const [order, setOrder] = useState();
+  const [order, setOrder] = useState([]);
 
   useEffect(() => {
     const products = async () => {
       try {
         const shops = await fetchShops();
-
         setShops(shops);
       } catch (error) {
         console.log(error);
@@ -26,8 +25,9 @@ export const App = () => {
     const [addProduct] = shops.filter(({ _id }) => _id === productId);
     const updateProduct = { ...addProduct, count: 1 };
 
-    setOrder(updateProduct);
+    setOrder(prev => [...prev, updateProduct]);
   };
+
   return (
     <div>
       <Routes>

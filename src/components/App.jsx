@@ -24,10 +24,9 @@ export const App = () => {
   const handleAdd = productId => {
     const [addProduct] = shops.filter(({ _id }) => _id === productId);
     const updateProduct = { ...addProduct, count: 1 };
-
     setOrder(prev => [...prev, updateProduct]);
+    // console.log(res);
   };
-
   return (
     <div>
       <Routes>

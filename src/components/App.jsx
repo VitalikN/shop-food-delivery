@@ -8,6 +8,9 @@ import ShoppingCartPage from 'pages/ShoppingCartPage/ShoppingCartPage';
 export const App = () => {
   const [shops, setShops] = useState([]);
   const [order, setOrder] = useState([]);
+  // const [total, setTotal] = useState(0);
+  // const [loading, setLoading] = useState([]);
+  const [countOrder, setCountOrder] = useState([]);
 
   useEffect(() => {
     const products = async () => {
@@ -21,12 +24,40 @@ export const App = () => {
     products();
   }, []);
 
+  const handleIncrement = id => {
+    const res = (countOrder.length > 0 ? countOrder : order).map(product => {
+      if (product._id === id) {
+        return { ...product, count: product.count + 1 };
+      }
+      return product;
+    });
+    setCountOrder(res);
+  };
+
+  const handleDecrement = id => {
+    const res = (countOrder.length > 0 ? countOrder : order).map(product => {
+      if (product._id === id) {
+        return { ...product, count: product.count - 1 };
+      }
+      return product;
+    });
+    setCountOrder(res);
+  };
+
   const handleAdd = productId => {
     const [addProduct] = shops.filter(({ _id }) => _id === productId);
     const updateProduct = { ...addProduct, count: 1 };
-    setOrder(prev => [...prev, updateProduct]);
-    // console.log(res);
+
+    shops.filter(({ _id }) => _id === productId)
+      ? // handleIncrement(productId);
+        setCountOrder(
+          prev => [...prev, updateProduct],
+          handleIncrement(productId)
+        )
+      : setOrder(prev => [...prev, updateProduct]);
   };
+  console.log(order);
+  console.log(countOrder);
   return (
     <div>
       <Routes>
@@ -35,7 +66,17 @@ export const App = () => {
             index
             element={<ShopPage shops={shops} handleAdd={handleAdd} />}
           />
-          <Route path="/cart" element={<ShoppingCartPage order={order} />} />
+          <Route
+            path="/cart"
+            element={
+              <ShoppingCartPage
+                order={order}
+                countOrder={countOrder}
+                handleIncrement={handleIncrement}
+                handleDecrement={handleDecrement}
+              />
+            }
+          />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

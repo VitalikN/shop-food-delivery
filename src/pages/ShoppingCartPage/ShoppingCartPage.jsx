@@ -10,9 +10,14 @@ import { Typography } from '@mui/material';
 import { Item, List } from './ShoppingCartPage.styked';
 import { addShopsOrders } from 'service/api';
 
-const ShoppingCartPage = ({ order }) => {
+const ShoppingCartPage = ({
+  order,
+  countOrder,
+  handleIncrement,
+  handleDecrement,
+}) => {
   const [userDataOrder, setUserDataOrder] = useState([]);
-  const [countOrder, setCountOrder] = useState([]);
+  // const [countOrder, setCountOrder] = useState([]);
 
   const [userData, setUserData] = useState({
     name: '',
@@ -51,25 +56,25 @@ const ShoppingCartPage = ({ order }) => {
     setUserData({ name: '', email: '', phone: '', address: '' });
   };
 
-  const handleIncrement = id => {
-    const res = (countOrder.length > 0 ? countOrder : order).map(product => {
-      if (product._id === id) {
-        return { ...product, count: product.count + 1 };
-      }
-      return product;
-    });
-    setCountOrder(res);
-  };
+  // const handleIncrement = id => {
+  //   const res = (countOrder.length > 0 ? countOrder : order).map(product => {
+  //     if (product._id === id) {
+  //       return { ...product, count: product.count + 1 };
+  //     }
+  //     return product;
+  //   });
+  //   setCountOrder(res);
+  // };
 
-  const handleDecrement = id => {
-    const res = (countOrder.length > 0 ? countOrder : order).map(product => {
-      if (product._id === id) {
-        return { ...product, count: product.count - 1 };
-      }
-      return product;
-    });
-    setCountOrder(res);
-  };
+  // const handleDecrement = id => {
+  //   const res = (countOrder.length > 0 ? countOrder : order).map(product => {
+  //     if (product._id === id) {
+  //       return { ...product, count: product.count - 1 };
+  //     }
+  //     return product;
+  //   });
+  //   setCountOrder(res);
+  // };
 
   return (
     <>

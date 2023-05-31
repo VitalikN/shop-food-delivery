@@ -4,22 +4,8 @@ import { Restaurant } from 'components/restaurant/restaurant';
 import { useState } from 'react';
 // import { fetchShops } from 'service/api';
 
-const ShopPage = ({ shops, handleAdd }) => {
-  // const [shops, setShops] = useState([]);
+const ShopPage = ({ shops, handleAdd, loading }) => {
   const [changeShop, setChangeShop] = useState(null);
-
-  // useEffect(() => {
-  //   const products = async () => {
-  //     try {
-  //       const shops = await fetchShops();
-
-  //       setShops(shops);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   products();
-  // }, []);
 
   const changeShopClick = id => {
     switch (id) {
@@ -44,7 +30,12 @@ const ShopPage = ({ shops, handleAdd }) => {
     >
       <Restaurant changeShopClick={changeShopClick} />
       {changeShop && (
-        <Products shops={shops} handleAdd={handleAdd} changeShop={changeShop} />
+        <Products
+          shops={shops}
+          handleAdd={handleAdd}
+          changeShop={changeShop}
+          loading={loading}
+        />
       )}
     </Box>
   );

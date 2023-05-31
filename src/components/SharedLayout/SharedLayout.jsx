@@ -2,11 +2,16 @@ import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { AppBar, Box, Typography } from '@mui/material';
 import { LinkStyled } from './Styled.styled';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 const SharedLayout = () => {
   return (
     <>
-      <AppBar>
+      <AppBar
+        sx={{
+          background: 'linear-gradient(to right, #654ea3, #eaafc8)',
+        }}
+      >
         <Box
           component="nav"
           sx={{
@@ -24,24 +29,44 @@ const SharedLayout = () => {
           </LinkStyled>
 
           <LinkStyled to="/cart">
-            <Typography variant="h5"> Shopping Cart</Typography>
+            <ShoppingCartOutlinedIcon fontSize="large" />
           </LinkStyled>
         </Box>
       </AppBar>
       <Box
         component="main"
         sx={{
-          minHeight: 'calc(100vh - 65px)',
+          minHeight: 'calc(100vh - 148px)',
+
           pt: 10,
-          pb: 3,
-          pl: 3,
-          pr: 3,
+          pb: 1,
+          pl: 1,
+          pr: 1,
         }}
       >
         <Suspense fallback={<div>Loading subpage...</div>}>
           <Outlet />
         </Suspense>
       </Box>
+      <AppBar
+        component="footer"
+        sx={{
+          position: 'relative',
+          background: 'linear-gradient(to right, #654ea3, #eaafc8)',
+        }}
+      >
+        <Box
+          sx={{
+            display: { xs: 'flex' },
+            height: '60px',
+
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="body1">Disigned by Vitalii Nozhenko</Typography>
+        </Box>
+      </AppBar>
     </>
   );
 };

@@ -3,16 +3,16 @@ import styled from '@emotion/styled';
 export const List = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+
   align-items: center;
+  background: linear-gradient(to left, #654ea3, #eaafc8);
+  color: #00e5ffe6;
 
-  border: 1px solid #1976d2;
   border-radius: 8px;
-
-  gap: 10px;
-  padding: 10px 20px;
-
+  gap: 5px;
   list-style: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
 `;
 
 export const Item = styled.li`
@@ -21,7 +21,7 @@ export const Item = styled.li`
   align-items: center;
   justify-content: center;
   width: 250px;
-  border: 1px solid #1976d2;
+  border: 1px solid #654ea3;
   border-radius: 8px;
   padding: 10px;
 `;

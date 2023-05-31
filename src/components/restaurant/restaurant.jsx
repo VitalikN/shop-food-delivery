@@ -1,4 +1,4 @@
-import { Box, Button, List } from '@mui/material';
+import { Box, Button, List, Typography } from '@mui/material';
 import restaurant from '../../restaurant.json';
 
 export const Restaurant = ({ changeShopClick }) => {
@@ -9,16 +9,27 @@ export const Restaurant = ({ changeShopClick }) => {
         flexDirection: 'column',
 
         alignItems: 'center',
+        background: 'linear-gradient(to left, #b39eed, #eaafc8)',
+
         border: 1,
-        borderColor: '#1976d2',
+        borderColor: '#a288e7',
         borderRadius: 2,
-        width: '250px',
-        mr: 4,
-        ml: 8,
+        width: '300px',
+
+        mr: 1,
         pt: 3,
       }}
     >
-      <h1>Shops:</h1>
+      <Typography
+        variant="h1"
+        sx={{
+          color: '#00e5ff',
+          fontWeight: 'bold',
+          fontSize: 20,
+        }}
+      >
+        Shops:
+      </Typography>
       <List>
         {restaurant.map(({ id, name }) => (
           <li key={id}>
@@ -26,6 +37,8 @@ export const Restaurant = ({ changeShopClick }) => {
               variant="outlined"
               onClick={() => changeShopClick(id)}
               sx={{
+                background: 'linear-gradient(to left, #654ea3, #eaafc8)',
+                color: ' #00e5ffe6',
                 margin: 2,
                 width: 140,
                 height: 40,

@@ -7,9 +7,13 @@ import ShoppingCartPage from 'pages/ShoppingCartPage/ShoppingCartPage';
 
 export const App = () => {
   const [shops, setShops] = useState([]);
-  // const [total, setTotal] = useState(0);
 
-  const [countOrder, setCountOrder] = useState([]);
+  const [countOrder, setCountOrder] = useState(
+    JSON.parse(localStorage.getItem('countOrder')) || []
+  );
+  useEffect(() => {
+    localStorage.setItem('countOrder', JSON.stringify(countOrder));
+  }, [countOrder]);
 
   useEffect(() => {
     const products = async () => {
@@ -36,9 +40,7 @@ export const App = () => {
   const handleDecrement = id => {
     const res = countOrder.map(product => {
       if (product._id === id) {
-        if (product.count <= 0) {
-          console.log(id);
-          deleteProduct(id);
+        if (product.count === 1) {
           return product;
         }
         return { ...product, count: product.count - 1 };

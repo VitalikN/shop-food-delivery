@@ -1,10 +1,16 @@
 import { Box } from '@mui/material';
 import { Products } from 'components/products/products';
 import { Restaurant } from 'components/restaurant/restaurant';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ShopPage = ({ shops, handleAdd, isDisabled }) => {
-  const [changeShop, setChangeShop] = useState(null);
+  const [changeShop, setChangeShop] = useState(
+    JSON.parse(localStorage.getItem('changeShop')) || []
+  );
+
+  useEffect(() => {
+    localStorage.setItem('changeShop', JSON.stringify(changeShop));
+  }, [changeShop]);
 
   const changeShopClick = id => {
     switch (id) {
@@ -28,7 +34,7 @@ const ShopPage = ({ shops, handleAdd, isDisabled }) => {
       }}
     >
       <Restaurant changeShopClick={changeShopClick} />
-      {changeShop && (
+      {changeShop.length > 0 && (
         <Products
           shops={shops}
           handleAdd={handleAdd}

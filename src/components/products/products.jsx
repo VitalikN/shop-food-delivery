@@ -21,7 +21,7 @@ export const Products = ({
               {title}
             </Typography>
             <Typography variant="h6" sx={{ margin: 1 }}>
-              Price: {price}
+              Price: {price}$
             </Typography>
 
             <Button

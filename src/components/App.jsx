@@ -7,9 +7,8 @@ import ShoppingCartPage from 'pages/ShoppingCartPage/ShoppingCartPage';
 
 export const App = () => {
   const [shops, setShops] = useState([]);
-  const [order, setOrder] = useState([]);
   // const [total, setTotal] = useState(0);
-  // const [loading, setLoading] = useState([]);
+
   const [countOrder, setCountOrder] = useState([]);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ export const App = () => {
   }, []);
 
   const handleIncrement = id => {
-    const res = (countOrder.length > 0 ? countOrder : order).map(product => {
+    const res = countOrder.map(product => {
       if (product._id === id) {
         return { ...product, count: product.count + 1 };
       }
@@ -35,8 +34,13 @@ export const App = () => {
   };
 
   const handleDecrement = id => {
-    const res = (countOrder.length > 0 ? countOrder : order).map(product => {
+    const res = countOrder.map(product => {
       if (product._id === id) {
+        if (product.count <= 0) {
+          console.log(id);
+          deleteProduct(id);
+          return product;
+        }
         return { ...product, count: product.count - 1 };
       }
       return product;
@@ -47,33 +51,37 @@ export const App = () => {
   const handleAdd = productId => {
     const [addProduct] = shops.filter(({ _id }) => _id === productId);
     const updateProduct = { ...addProduct, count: 1 };
-
-    shops.filter(({ _id }) => _id === productId)
-      ? // handleIncrement(productId);
-        setCountOrder(
-          prev => [...prev, updateProduct],
-          handleIncrement(productId)
-        )
-      : setOrder(prev => [...prev, updateProduct]);
+    setCountOrder(prev => [...prev, updateProduct]);
   };
-  console.log(order);
-  console.log(countOrder);
+  const isDisabled = id => {
+    return countOrder.some(({ _id }) => _id === id);
+  };
+  const deleteProduct = id => {
+    const productDelete = countOrder.filter(({ _id }) => _id !== id);
+    setCountOrder(productDelete);
+  };
   return (
     <div>
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route
             index
-            element={<ShopPage shops={shops} handleAdd={handleAdd} />}
+            element={
+              <ShopPage
+                shops={shops}
+                handleAdd={handleAdd}
+                isDisabled={isDisabled}
+              />
+            }
           />
           <Route
             path="/cart"
             element={
               <ShoppingCartPage
-                order={order}
                 countOrder={countOrder}
                 handleIncrement={handleIncrement}
                 handleDecrement={handleDecrement}
+                deleteProduct={deleteProduct}
               />
             }
           />

@@ -11,13 +11,12 @@ import { Item, List } from './ShoppingCartPage.styked';
 import { addShopsOrders } from 'service/api';
 
 const ShoppingCartPage = ({
-  order,
   countOrder,
   handleIncrement,
   handleDecrement,
+  deleteProduct,
 }) => {
   const [userDataOrder, setUserDataOrder] = useState([]);
-  // const [countOrder, setCountOrder] = useState([]);
 
   const [userData, setUserData] = useState({
     name: '',
@@ -32,7 +31,6 @@ const ShoppingCartPage = ({
         const res = await addShopsOrders(userDataOrder);
 
         console.log(res);
-        // setOrders(res);
       } catch (error) {
         console.log('error', error);
       }
@@ -51,30 +49,10 @@ const ShoppingCartPage = ({
     e.preventDefault();
     setUserDataOrder({
       ...userData,
-      product: [...order],
+      product: [...countOrder],
     });
     setUserData({ name: '', email: '', phone: '', address: '' });
   };
-
-  // const handleIncrement = id => {
-  //   const res = (countOrder.length > 0 ? countOrder : order).map(product => {
-  //     if (product._id === id) {
-  //       return { ...product, count: product.count + 1 };
-  //     }
-  //     return product;
-  //   });
-  //   setCountOrder(res);
-  // };
-
-  // const handleDecrement = id => {
-  //   const res = (countOrder.length > 0 ? countOrder : order).map(product => {
-  //     if (product._id === id) {
-  //       return { ...product, count: product.count - 1 };
-  //     }
-  //     return product;
-  //   });
-  //   setCountOrder(res);
-  // };
 
   return (
     <>
@@ -83,8 +61,10 @@ const ShoppingCartPage = ({
           component="section"
           sx={{
             display: 'flex',
+            flexWrap: 'wrap',
             justifyContent: 'center',
-            alignItems: 'center',
+
+            gap: 2,
           }}
         >
           <Box
@@ -96,9 +76,7 @@ const ShoppingCartPage = ({
               border: 1,
               borderColor: '#1976d2',
               borderRadius: 2,
-              width: '200px',
-              mr: 4,
-              ml: 8,
+
               padding: 4,
             }}
           >
@@ -156,54 +134,51 @@ const ShoppingCartPage = ({
             </form>
           </Box>
 
-          {order && (
-            <List>
-              {(countOrder.length > 0 ? countOrder : order).map(
-                ({ _id, title, price, count }) => (
-                  <Item key={_id}>
-                    <Typography variant="h5" sx={{ margin: 1 }}>
-                      {title}
-                    </Typography>
+          <List>
+            {countOrder &&
+              countOrder.map(({ _id, title, price, count }) => (
+                <Item key={_id}>
+                  <Typography variant="h5" sx={{ margin: 1 }}>
+                    {title}
+                  </Typography>
+                  <Typography variant="h6" sx={{ margin: 1 }}>
+                    Price: {price}
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
                     <Typography variant="h6" sx={{ margin: 1 }}>
-                      Price: {price}
+                      {count}
                     </Typography>
+
                     <Box
                       sx={{
                         display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                        flexDirection: 'column',
                       }}
                     >
-                      <Typography variant="h6" sx={{ margin: 1 }}>
-                        {count}
-                      </Typography>
-
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
+                      <ArrowDropUpIcon
+                        sx={{ padding: 0.7, fontSize: '30px' }}
+                        onClick={() => handleIncrement(_id)}
+                      />
+                      <ArrowDropDownIcon
+                        sx={{ padding: 0.7, fontSize: '30px' }}
+                        onClick={() => {
+                          handleDecrement(_id);
                         }}
-                      >
-                        <ArrowDropUpIcon
-                          sx={{ padding: 0.7, fontSize: '30px' }}
-                          onClick={() => handleIncrement(_id)}
-                        />
-                        <ArrowDropDownIcon
-                          sx={{ padding: 0.7, fontSize: '30px' }}
-                          onClick={() => {
-                            handleDecrement(_id);
-                          }}
-                        />
-                      </Box>
+                      />
                     </Box>
-                  </Item>
-                )
-              )}
-            </List>
-          )}
+                    <button onClick={() => deleteProduct(_id)}>Delete</button>
+                  </Box>
+                </Item>
+              ))}
+          </List>
         </Box>
       }
-      {/* <button type="submit">Submit</button> */}
     </>
   );
 };

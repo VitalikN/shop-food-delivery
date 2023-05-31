@@ -1,8 +1,16 @@
 import { Button, Typography } from '@mui/material';
 import { List, Item } from './products.styled';
 // import { useState } from 'react';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import DoneIcon from '@mui/icons-material/Done';
 
-export const Products = ({ shops, changeShop, handleAdd, loading }) => {
+export const Products = ({
+  shops,
+  changeShop,
+  handleAdd,
+  isDisabled,
+  deleteProduct,
+}) => {
   return (
     <List>
       {shops
@@ -16,8 +24,17 @@ export const Products = ({ shops, changeShop, handleAdd, loading }) => {
               Price: {price}
             </Typography>
 
-            <Button variant="outlined" onClick={() => handleAdd(_id)}>
-              add to cart
+            <Button
+              disabled={isDisabled(_id)}
+              type="button"
+              variant="outlined"
+              onClick={() => handleAdd(_id)}
+            >
+              {isDisabled(_id) ? (
+                <DoneIcon />
+              ) : (
+                <AddShoppingCartIcon fontSize="small" />
+              )}
             </Button>
           </Item>
         ))}

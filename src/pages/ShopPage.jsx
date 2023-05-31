@@ -2,9 +2,8 @@ import { Box } from '@mui/material';
 import { Products } from 'components/products/products';
 import { Restaurant } from 'components/restaurant/restaurant';
 import { useState } from 'react';
-// import { fetchShops } from 'service/api';
 
-const ShopPage = ({ shops, handleAdd, loading }) => {
+const ShopPage = ({ shops, handleAdd, isDisabled }) => {
   const [changeShop, setChangeShop] = useState(null);
 
   const changeShopClick = id => {
@@ -34,7 +33,7 @@ const ShopPage = ({ shops, handleAdd, loading }) => {
           shops={shops}
           handleAdd={handleAdd}
           changeShop={changeShop}
-          loading={loading}
+          isDisabled={isDisabled}
         />
       )}
     </Box>

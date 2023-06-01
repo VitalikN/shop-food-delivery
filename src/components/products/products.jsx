@@ -4,13 +4,7 @@ import { List, Item } from './products.styled';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import DoneIcon from '@mui/icons-material/Done';
 
-export const Products = ({
-  shops,
-  changeShop,
-  handleAdd,
-  isDisabled,
-  deleteProduct,
-}) => {
+export const Products = ({ shops, changeShop, handleAdd, isDisabled }) => {
   return (
     <List>
       {shops
@@ -29,9 +23,10 @@ export const Products = ({
               type="button"
               variant="outlined"
               onClick={() => handleAdd(_id)}
+              color="warning"
             >
               {isDisabled(_id) ? (
-                <DoneIcon />
+                <DoneIcon color="success" />
               ) : (
                 <AddShoppingCartIcon fontSize="small" />
               )}

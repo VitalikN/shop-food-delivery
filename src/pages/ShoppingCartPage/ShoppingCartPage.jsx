@@ -8,7 +8,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import { Typography } from '@mui/material';
-import { Item, List } from './ShoppingCartPage.styked';
+import { Form, Item, List } from './ShoppingCartPage.styked';
 import { addShopsOrders } from 'service/api';
 
 const ShoppingCartPage = ({
@@ -77,8 +77,9 @@ const ShoppingCartPage = ({
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
+
             justifyContent: 'center',
-            background: 'linear-gradient(to left, #b39eed, #eaafc8)',
+            alignItems: 'center',
             pt: 2,
             gap: 2,
           }}
@@ -88,17 +89,18 @@ const ShoppingCartPage = ({
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
+              alignItems: 'center',
+              background: '#fff',
 
-              border: 1,
-              borderColor: '#654ea3',
               borderRadius: 2,
 
               padding: 4,
             }}
           >
-            <form onSubmit={sendUserForm}>
+            <Form onSubmit={sendUserForm} sx={{}}>
               <Box sx={{ margin: 1 }}>
                 <TextField
+                  color="warning"
                   label="Username"
                   size="small"
                   type="text"
@@ -111,6 +113,7 @@ const ShoppingCartPage = ({
 
               <Box sx={{ margin: 1 }}>
                 <TextField
+                  color="warning"
                   label="Email"
                   size="small"
                   name="email"
@@ -123,6 +126,7 @@ const ShoppingCartPage = ({
 
               <Box sx={{ margin: 1 }}>
                 <TextField
+                  color="warning"
                   label="Phone"
                   size="small"
                   type="text"
@@ -136,6 +140,7 @@ const ShoppingCartPage = ({
 
               <Box sx={{ margin: 1 }}>
                 <TextField
+                  color="warning"
                   label="Address"
                   size="small"
                   type="text"
@@ -145,14 +150,10 @@ const ShoppingCartPage = ({
                   onChange={handleChange}
                 />
               </Box>
-              <Button
-                // sx={{ position: 'absolute' }}
-                variant="outlined"
-                type="submit"
-              >
+              <Button variant="outlined" type="submit" color="warning">
                 Checkout
               </Button>
-            </form>
+            </Form>
           </Box>
 
           <List>
@@ -176,32 +177,42 @@ const ShoppingCartPage = ({
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      backgroundColor: '#987ce4',
+                      backgroundColor: '#f77960',
                       borderRadius: 2,
                     }}
                   >
                     <AddIcon
-                      sx={{ padding: 0.7 }}
+                      sx={{
+                        padding: 0.7,
+                        fontSize: 20,
+                        color: '#fff',
+                      }}
                       onClick={() => handleIncrement(_id)}
                     />
-                    <Typography variant="h6" sx={{ margin: 1 }}>
+                    <Typography variant="h6" sx={{ margin: 1, color: '#fff' }}>
                       {count}
                     </Typography>
                     <RemoveIcon
-                      sx={{ padding: 0.7 }}
+                      sx={{ padding: 0.7, fontSize: 20, color: '#fff' }}
                       onClick={() => {
                         handleDecrement(_id);
                       }}
                     />
                   </Box>
-                  <ClearIcon onClick={() => deleteProduct(_id)} />
+                  <ClearIcon
+                    onClick={() => deleteProduct(_id)}
+                    sx={{ padding: 0.7, fontSize: 25, color: '#f77960' }}
+                  />
                 </Box>
               </Item>
             ))}
           </List>
 
           <Box>
-            <Typography variant="h6" sx={{ margin: 1, position: 'relative' }}>
+            <Typography
+              variant="h6"
+              sx={{ margin: 1, fontSize: 25, color: '#f77960' }}
+            >
               TotalPrici:
               {totalPrice}$
             </Typography>
@@ -217,7 +228,6 @@ const ShoppingCartPage = ({
           }}
           variant="h4"
         >
-          {' '}
           No item added to the cart
         </Typography>
       )}

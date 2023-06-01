@@ -9,7 +9,8 @@ const SharedLayout = () => {
     <>
       <AppBar
         sx={{
-          background: 'linear-gradient(to right, #654ea3, #eaafc8)',
+          background: '#ffffff',
+          color: '#414141',
         }}
       >
         <Box
@@ -52,7 +53,8 @@ const SharedLayout = () => {
         component="footer"
         sx={{
           position: 'relative',
-          background: 'linear-gradient(to right, #654ea3, #eaafc8)',
+          background: ' #ffffff',
+          color: '#414141',
         }}
       >
         <Box

@@ -10,6 +10,47 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Typography } from '@mui/material';
 import { Form, Item, List } from './ShoppingCartPage.styked';
 import { addShopsOrders } from 'service/api';
+import axios from 'axios';
+// import cryptoJs from 'crypto-js';
+// const crypto = require('crypto');
+const CryptoJS = require('crypto-js');
+
+const data = {
+  merchantAccount: 'test_merch_n1',
+  merchantAuthType: 'SimpleSignature',
+  merchantDomainName: 'www.market.ua',
+  // merchantSignature: hashed_value,
+  orderReference: 'DH783023',
+  orderDate: '1415379863',
+  amount: '1547.36',
+  currency: 'UAH',
+  orderTimeout: '49000',
+  productName: [
+    'Процессор Intel Core i5-4670 3.4GHz',
+    'Память Kingston DDR3-1600 4096MB PC3-12800',
+  ],
+  productPrice: ['1000', '547.36'],
+  productCount: ['1', '1'],
+  clientFirstName: 'Вася',
+  clientLastName: 'Пупкин',
+  clientAddress: 'пр. Гагарина, 12',
+  clientCity: 'Днепропетровск',
+  clientEmail: 'some@mail.com',
+  defaultPaymentSystem: 'card',
+};
+const input_stroka = `${data.merchantAccount};${data.merchantAuthType};${data.orderReference};${data.orderDate};${data.amount};${data.currency};${data.productName[0]};${data.productName[1]};${data.productCount[0]};${data.productCount[1]};${data.productPrice[0]};${data.productPrice[1]}`;
+const secret_key = 'flk3409refn54t54t*FNJRET';
+
+// // const hmac = cryptoJs.createHmac('md5', secret_key);
+// hmac.update(input_stroka);
+
+// const hashed_value = hmac.digest('hex');
+// console.log(hashed_value);
+
+const hashed_value = CryptoJS.HmacMD5(input_stroka, secret_key).toString(
+  CryptoJS.enc.Hex
+);
+data['merchantSignature'] = hashed_value;
 
 const ShoppingCartPage = ({
   countOrder,
@@ -27,6 +68,18 @@ const ShoppingCartPage = ({
     phone: '',
     address: '',
   });
+
+  const handleBuy = () => {
+    axios
+      .post('https://secure.wayforpay.com/pay', data)
+      .then(response => {
+        console.log('Response======>>>>', response.data);
+      })
+      .catch(error => {
+        console.error('Error====>>>>', error);
+      });
+    console.log(`Продукт з ID `);
+  };
 
   const handleChange = evt => {
     const { name, value } = evt.target;
@@ -56,7 +109,6 @@ const ShoppingCartPage = ({
     if (userDataOrder.length === 0) {
       return;
     }
-    console.log('userDataOrder', userDataOrder);
 
     const getOrders = async () => {
       try {
@@ -204,6 +256,8 @@ const ShoppingCartPage = ({
                     sx={{ padding: 0.7, fontSize: 25, color: '#f77960' }}
                   />
                 </Box>
+
+                <Button onClick={() => handleBuy(_id)}>купити </Button>
               </Item>
             ))}
           </List>

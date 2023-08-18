@@ -1,8 +1,5 @@
-// import { UserForm } from 'components/userForm/userForm';
-
 import { Box, Button, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-// import { addShopsOrders } from 'service/api';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -10,26 +7,22 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Typography } from '@mui/material';
 import { Form, Item, List } from './ShoppingCartPage.styked';
 import { addShopsOrders } from 'service/api';
-import axios from 'axios';
-// import cryptoJs from 'crypto-js';
-// const crypto = require('crypto');
+
 const CryptoJS = require('crypto-js');
 
-const data = {
+const initialData = {
   merchantAccount: 'test_merch_n1',
-  merchantAuthType: 'SimpleSignature',
   merchantDomainName: 'www.market.ua',
-  // merchantSignature: hashed_value,
-  orderReference: 'DH783023',
+  orderReference: 'DH169235565',
   orderDate: '1415379863',
-  amount: '1547.36',
+  amount: '147.36',
   currency: 'UAH',
   orderTimeout: '49000',
-  productName: [
-    'Процессор Intel Core i5-4670 3.4GHz',
-    'Память Kingston DDR3-1600 4096MB PC3-12800',
-  ],
-  productPrice: ['1000', '547.36'],
+  // productName: [],
+  // productPrice: [],
+  // productCount: [],
+  productName: ['Процессор Intel Core i9-4670 3.4GHz', 'Память'],
+  productPrice: ['100', '147.36'],
   productCount: ['1', '1'],
   clientFirstName: 'Вася',
   clientLastName: 'Пупкин',
@@ -38,19 +31,6 @@ const data = {
   clientEmail: 'some@mail.com',
   defaultPaymentSystem: 'card',
 };
-const input_stroka = `${data.merchantAccount};${data.merchantAuthType};${data.orderReference};${data.orderDate};${data.amount};${data.currency};${data.productName[0]};${data.productName[1]};${data.productCount[0]};${data.productCount[1]};${data.productPrice[0]};${data.productPrice[1]}`;
-const secret_key = 'flk3409refn54t54t*FNJRET';
-
-// // const hmac = cryptoJs.createHmac('md5', secret_key);
-// hmac.update(input_stroka);
-
-// const hashed_value = hmac.digest('hex');
-// console.log(hashed_value);
-
-const hashed_value = CryptoJS.HmacMD5(input_stroka, secret_key).toString(
-  CryptoJS.enc.Hex
-);
-data['merchantSignature'] = hashed_value;
 
 const ShoppingCartPage = ({
   countOrder,
@@ -68,18 +48,61 @@ const ShoppingCartPage = ({
     phone: '',
     address: '',
   });
+  const [data, setData] = useState(initialData);
 
-  const handleBuy = () => {
-    axios
-      .post('https://secure.wayforpay.com/pay', data)
-      .then(response => {
-        console.log('Response======>>>>', response.data);
-      })
-      .catch(error => {
-        console.error('Error====>>>>', error);
-      });
-    console.log(`Продукт з ID `);
-  };
+  useEffect(() => {
+    const productNames = countOrder.map(item => item.title);
+    const productCounts = countOrder.map(item => item.count.toString());
+    const productPrices = countOrder.map(item => item.price.toString());
+
+    setData(prevData => ({
+      ...prevData,
+      productName: productNames,
+      productCount: productCounts,
+      productPrice: productPrices,
+      amount: countOrder
+        .reduce((sum, item) => sum + Number(item.price) * item.count, 0)
+        .toString(),
+    }));
+  }, [countOrder]);
+
+  // Додаємо новий useEffect
+  useEffect(() => {
+    if (countOrder && countOrder.length) {
+      const updatedData = {
+        ...data,
+        merchantAccount: countOrder.merchantAccount || data.merchantAccount,
+        productName: countOrder.productName || data.productName,
+        productPrice: countOrder.productPrice || data.productPrice,
+        // ... додайте інші поля, якщо потрібно
+      };
+      setData(updatedData);
+    }
+  }, [countOrder]);
+
+  const replaceNewlines = text => text.replace(/\n/g, ' ');
+
+  const inputValues = [
+    data.merchantAccount,
+    data.merchantDomainName,
+    data.orderReference,
+    data.orderDate,
+    data.amount,
+    data.currency,
+    ...data.productName.map(replaceNewlines),
+    ...data.productCount,
+    ...data.productPrice,
+  ];
+
+  const input_stroka = inputValues.join(';');
+
+  const secret_key = 'flk3409refn54t54t*FNJRET';
+
+  const hashed_value = CryptoJS.HmacMD5(input_stroka, secret_key).toString(
+    CryptoJS.enc.Hex
+  );
+
+  data['merchantSignature'] = hashed_value;
 
   const handleChange = evt => {
     const { name, value } = evt.target;
@@ -93,7 +116,6 @@ const ShoppingCartPage = ({
 
     setUserDataOrder({
       ...userData,
-      // totalPrice: totalPrice,
       product: [...countOrder],
     });
 
@@ -123,6 +145,68 @@ const ShoppingCartPage = ({
 
   return (
     <>
+      <form
+        method="post"
+        action="https://secure.wayforpay.com/pay"
+        acceptCharset="UTF-8"
+      >
+        <input name="merchantAccount" defaultValue={data.merchantAccount} />
+        <input
+          name="merchantDomainName"
+          defaultValue={data.merchantDomainName}
+        />
+        <input name="orderReference" defaultValue={data.orderReference} />
+        <input name="orderDate" defaultValue={data.orderDate} />
+        <input name="amount" defaultValue={data.amount} />
+        <input name="currency" defaultValue={data.currency} />
+        <input name="orderTimeout" defaultValue={data.orderTimeout} />
+
+        {data.productName.map((name, index) => (
+          <input
+            key={`productName-${index}`}
+            name="productName[]"
+            defaultValue={name}
+          />
+        ))}
+
+        {data.productPrice.map((price, index) => (
+          <input
+            key={`productPrice-${index}`}
+            name="productPrice[]"
+            defaultValue={price}
+          />
+        ))}
+
+        {data.productCount.map((count, index) => (
+          <input
+            key={`productCount-${index}`}
+            name="productCount[]"
+            defaultValue={count}
+          />
+        ))}
+
+        {countOrder.map(({ _id, title, price, count }, index) => (
+          <li key={_id}>
+            <input name={`itemId-${index}`} defaultValue={_id} />
+            <input name={`itemTitle-${index}`} defaultValue={title} />
+            <input name={`itemPrice-${index}`} defaultValue={price} />
+            <input name={`itemCount-${index}`} defaultValue={count} />
+          </li>
+        ))}
+
+        <input name="clientFirstName" defaultValue={data.clientFirstName} />
+        <input name="clientLastName" defaultValue={data.clientLastName} />
+        <input name="clientAddress" defaultValue={data.clientAddress} />
+        <input name="clientCity" defaultValue={data.clientCity} />
+        <input name="clientEmail" defaultValue={data.clientEmail} />
+        <input
+          name="defaultPaymentSystem"
+          defaultValue={data.defaultPaymentSystem}
+        />
+        <input name="merchantSignature" defaultValue={hashed_value} />
+        <input type="submit" value="Test" />
+      </form>
+
       {countOrder.length > 0 ? (
         <Box
           component="section"
@@ -257,7 +341,7 @@ const ShoppingCartPage = ({
                   />
                 </Box>
 
-                <Button onClick={() => handleBuy(_id)}>купити </Button>
+                {/* <Button onClick={() => handleBuy(_id)}>купити </Button> */}
               </Item>
             ))}
           </List>
